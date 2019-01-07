@@ -1,0 +1,12 @@
+service: was-today-better
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: eu-west-1
+
+functions:
+  handler:
+    handler: handler.handler
+    events:
+      - alexaSkill: amzn1.ask.skill.1ab15c41-18a8-49a9-9ea4-f58166c7f429
