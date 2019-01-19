@@ -11,7 +11,7 @@ const conf = {
 
 firebase.initializeApp(conf)
 
-firebase.auth().signInWithEmailAndPassword(process.env.EMAIL, process.env.PASSWORD).then(() => {
+firebase.auth().signInWithEmailAndPassword('test-user@klausbayrhammer.com', '7gXAG2E5dxWTZsWzR9Q5').then(() => {
   console.log('signed in')
   firebase.database().ref(`/${process.env.UID}/focusAreas`).on('value', function (snapshot) {
     console.log(snapshot.val())
