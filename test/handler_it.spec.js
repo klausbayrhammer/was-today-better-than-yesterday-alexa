@@ -19,7 +19,7 @@ describe('handler integration test', () => {
     await firebaseApp.auth().signInWithEmailAndPassword('test-user@klausbayrhammer.com', '7gXAG2E5dxWTZsWzR9Q5');
 
     await firebaseApp.database().ref('/tnvxVYhwOHdITymrEsQahnyzrP73/focusAreas').set({
-      0: { deleted: false, name: 'TDD' },
+      123123123: { deleted: false, name: 'TDD' },
     });
   });
 
@@ -41,7 +41,7 @@ describe('handler integration test', () => {
         expect(response.response).toEqual({
           outputSpeech: {
             type: 'SSML',
-            ssml: '<speak>was better in TDD</speak>',
+            ssml: '<speak>Was today better than yesterday in regards of TDD</speak>',
           },
         });
         done();

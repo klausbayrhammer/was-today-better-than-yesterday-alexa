@@ -16,7 +16,8 @@
     "eslint-plugin-standard": "^4.0.0",
     "expect": "^23.6.0",
     "mocha": "^5.2.0",
-    "proxyquire": "^2.1.0"
+    "proxyquire": "^2.1.0",
+    "sinon": "^7.2.3"
   },
   "dependencies": {
     "ask-sdk-core": "^2.3.0",
@@ -28,6 +29,6 @@
     "deploy": "eval $(assume-role kb-private) && serverless deploy",
     "deploy-code": "eval $(assume-role kb-private) && serverless deploy --function handler",
     "lint": "eslint src test",
-    "test": "mocha test/**.spec.js"
+    "test": "mocha test/**/**.spec.js"
   }
 }
