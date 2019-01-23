@@ -46,6 +46,7 @@ describe('launch request handler', () => {
       sinon.assert.calledWith(handlerInput.responseBuilder.speak, 'Was today better than yesterday in regards of focusAreaName');
       sinon.assert.called(handlerInput.responseBuilder.getResponse);
       expect(handlerInput.attributesManager.sessionAttributes.lastFocusAreaId).toEqual('focusAreaId');
+      sinon.assert.calledWith(handlerInput.responseBuilder.withShouldEndSession, false);
     });
   });
 });

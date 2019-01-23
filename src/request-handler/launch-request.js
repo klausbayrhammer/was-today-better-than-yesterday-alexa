@@ -16,6 +16,7 @@ module.exports = {
     sessionAttributes.lastFocusAreaId = focusArea.id;
     return handlerInput.responseBuilder
       .speak(`Was today better than yesterday in regards of ${focusArea.name}`)
+      .withShouldEndSession(false)
       .getResponse();
   },
 };
