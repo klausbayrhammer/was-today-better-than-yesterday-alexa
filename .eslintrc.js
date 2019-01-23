@@ -4,6 +4,7 @@ module.exports = {
     "mocha": true
   },
   "rules": {
-    "max-len": 0
+    "max-len": 0,
+    "no-console" :0
   }
 };

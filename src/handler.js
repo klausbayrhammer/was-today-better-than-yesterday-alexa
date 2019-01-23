@@ -3,8 +3,16 @@ const LaunchRequest = require('./request-handler/launch-request');
 
 const skillBuilder = Alexa.SkillBuilders.custom();
 
-module.exports = skillBuilder
-  .addRequestHandlers(
-    LaunchRequest,
-  )
-  .lambda();
+module.exports = (event, context, callback) => {
+  context.callbackWaitsForEmptyEventLoop = false; // eslint-disable-line no-param-reassign
+  return skillBuilder
+    .addRequestHandlers(
+      LaunchRequest,
+    )
+    .addRequestInterceptors({
+      process: (handlerInput) => {
+        console.log('request', JSON.stringify(handlerInput.requestEnvelope, 0, 2));
+      },
+    })
+    .lambda()(event, context, callback);
+};
