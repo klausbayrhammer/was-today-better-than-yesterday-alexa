@@ -8,6 +8,12 @@ describe('firebase-db.js', () => {
   const databaseStub = sinon.stub();
   const firebase = { database: () => databaseStub, initializeApp, auth: () => ({ signInWithEmailAndPassword }) };
 
+  beforeEach(() => {
+    delete process.env.FIREBASE_CONFIG;
+    delete process.env.FIREBASE_PASSWORD;
+    delete process.env.FIREBASE_USER;
+  });
+
   it('initializes firebase with default credentials', async () => {
     const firebaseDb = proxyquire('../../src/utils/firebase-db',
       { 'firebase/app': firebase, 'firebase/datbase': sinon.stub() });
