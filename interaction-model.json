@@ -40,6 +40,26 @@
             "better",
             "yes"
           ]
+        },
+        {
+          "name": "AddFocusAreaEntryWorse",
+          "slots": [],
+          "samples": [
+            "today was worse",
+            "worse",
+            "bad",
+            "no"
+          ]
+        },
+        {
+          "name": "AddFocusAreaEntryNotApplicable",
+          "slots": [],
+          "samples": [
+            "not applicable",
+            "cant say",
+            "next",
+            "skip"
+          ]
         }
       ],
       "types": []
