@@ -4,6 +4,10 @@ require('firebase/database');
 require('firebase/auth');
 const handler = require('../src/handler');
 
+function getTodaysDate() {
+  return new Date().toISOString().split('T')[0];
+}
+
 describe('handler integration test', () => {
   let firebaseApp;
 
@@ -17,9 +21,11 @@ describe('handler integration test', () => {
       messagingSenderId: '110009410201',
     }, 'test-connection');
     await firebaseApp.auth().signInWithEmailAndPassword('test-user@klausbayrhammer.com', '7gXAG2E5dxWTZsWzR9Q5');
+  });
 
+  beforeEach(async () => {
     await firebaseApp.database().ref('/tnvxVYhwOHdITymrEsQahnyzrP73/focusAreas').set({
-      123123123: { deleted: false, name: 'TDD' },
+      123: { deleted: false, name: 'TDD' },
     });
   });
 
@@ -43,7 +49,41 @@ describe('handler integration test', () => {
             type: 'SSML',
             ssml: '<speak>Was today better than yesterday in regards of TDD</speak>',
           },
+          shouldEndSession: false,
         });
+        done();
+      } catch (e) {
+        done(e);
+      }
+    });
+  });
+
+  it('adds a focus area entry for AddEntryBetter Intents', (done) => {
+    const event = {
+      version: '1.0',
+      session: {
+        attributes: {
+          lastFocusAreaId: '123',
+        },
+      },
+      request: {
+        type: 'IntentRequest',
+        intent: {
+          name: 'AddFocusAreaEntryBetter',
+        },
+      },
+    };
+    handler(event, {}, async (error, response) => {
+      try {
+        expect(response.response).toEqual({
+          outputSpeech: {
+            type: 'SSML',
+            ssml: '<speak>You are done for today - you added entries to all focus areas</speak>',
+          },
+          shouldEndSession: true,
+        });
+        const actualEntry = await firebaseApp.database().ref(`/tnvxVYhwOHdITymrEsQahnyzrP73/focusAreas/123/entries/${getTodaysDate()}`).once('value');
+        expect(actualEntry.val()).toEqual(1);
         done();
       } catch (e) {
         done(e);
