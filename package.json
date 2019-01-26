@@ -26,8 +26,8 @@
     "request-promise": "^4.2.2"
   },
   "scripts": {
-    "deploy": "eval $(assume-role kb-private) && serverless deploy",
-    "deploy-code": "eval $(assume-role kb-private) && serverless deploy --function handler",
+    "deploy": "eval $(assume-role kb-private) && serverless deploy --stage=dev",
+    "deploy-code": "eval $(assume-role kb-private) && serverless deploy --function handler --stage=dev",
     "lint": "eslint src test",
     "test": "mocha test/**/**.spec.js"
   }

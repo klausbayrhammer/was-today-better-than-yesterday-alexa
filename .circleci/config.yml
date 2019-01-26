@@ -36,5 +36,9 @@ jobs:
           command: yarn test
 
       - run:
+          name: Deploy dev application
+          command: sls deploy --stage=dev
+
+      - run:
           name: Deploy application
-          command: sls deploy
+          command: sls deploy --stage=production
