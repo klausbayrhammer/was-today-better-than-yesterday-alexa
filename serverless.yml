@@ -11,5 +11,6 @@ functions:
     environment:
       FIREBASE_USER: ${env:FIREBASE_USER}
       FIREBASE_PASSWORD: ${env:FIREBASE_PASSWORD}
+      FIREBASE_USER_OID: ${env:FIREBASE_USER_OID}
     events:
       - alexaSkill: amzn1.ask.skill.1ab15c41-18a8-49a9-9ea4-f58166c7f429

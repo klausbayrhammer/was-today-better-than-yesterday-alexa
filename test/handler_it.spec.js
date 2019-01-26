@@ -12,6 +12,7 @@ describe('handler integration test', () => {
   let firebaseApp;
 
   before(async () => {
+    process.env.FIREBASE_USER_OID = 'userOid';
     firebaseApp = await firebase.initializeApp({
       apiKey: 'AIzaSyAC26X8bWaMmZJ-v5yr6NsJaLdXkOBDGIs',
       authDomain: 'was-today-better-dev.firebaseapp.com',
@@ -24,7 +25,7 @@ describe('handler integration test', () => {
   });
 
   beforeEach(async () => {
-    await firebaseApp.database().ref('/tnvxVYhwOHdITymrEsQahnyzrP73/focusAreas').set({
+    await firebaseApp.database().ref('/userOid/focusAreas').set({
       123: { deleted: false, name: 'TDD' },
     });
   });
@@ -82,7 +83,7 @@ describe('handler integration test', () => {
           },
           shouldEndSession: true,
         });
-        const actualEntry = await firebaseApp.database().ref(`/tnvxVYhwOHdITymrEsQahnyzrP73/focusAreas/123/entries/${getTodaysDate()}`).once('value');
+        const actualEntry = await firebaseApp.database().ref(`/userOid/focusAreas/123/entries/${getTodaysDate()}`).once('value');
         expect(actualEntry.val()).toEqual(1);
         done();
       } catch (e) {
