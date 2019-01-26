@@ -18,11 +18,16 @@ function getFirebaseConfig() {
   return DEFAULT_FIREBASE_CONFIG;
 }
 
-module.exports = new Promise(async (resolve) => {
-  firebase.initializeApp(getFirebaseConfig());
-  const email = process.env.FIREBASE_USER || 'test-user@klausbayrhammer.com';
-  const password = process.env.FIREBASE_PASSWORD || '7gXAG2E5dxWTZsWzR9Q5';
-  await firebase.auth().signInWithEmailAndPassword(email, password);
-  const database = firebase.database();
-  resolve(database);
+module.exports = new Promise(async (resolve, reject) => {
+  try {
+    firebase.initializeApp(getFirebaseConfig());
+    const email = process.env.FIREBASE_USER || 'test-user@klausbayrhammer.com';
+    const password = process.env.FIREBASE_PASSWORD || '7gXAG2E5dxWTZsWzR9Q5';
+    await firebase.auth().signInWithEmailAndPassword(email, password);
+    const database = firebase.database();
+    resolve(database);
+  } catch (e) {
+    console.error('Error initializing firebase', e);
+    reject(e);
+  }
 });
