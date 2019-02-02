@@ -2,6 +2,7 @@ const expect = require('expect');
 const firebase = require('firebase/app');
 require('firebase/database');
 require('firebase/auth');
+
 const handler = require('../src/handler');
 
 function getTodaysDate() {
@@ -11,7 +12,8 @@ function getTodaysDate() {
 describe('handler integration test', () => {
   let firebaseApp;
 
-  before(async () => {
+  before(async function () {
+    this.timeout(10000);
     process.env.FIREBASE_USER_OID = 'userOid';
     firebaseApp = await firebase.initializeApp({
       apiKey: 'AIzaSyAC26X8bWaMmZJ-v5yr6NsJaLdXkOBDGIs',
@@ -31,11 +33,14 @@ describe('handler integration test', () => {
   });
 
   after(() => {
-    firebaseApp.database().goOffline();
-    firebase.database().goOffline();
+    firebaseApp.delete();
+    firebaseApp.auth().signOut();
+    firebase.app().delete();
+    firebase.auth().signOut();
   });
 
-  it('resolves the LaunchIntent successfully', (done) => {
+  it('resolves the LaunchIntent successfully', function (done) {
+    this.timeout(10000);
     const event = {
       version: '1.0',
       session: {},
@@ -59,7 +64,8 @@ describe('handler integration test', () => {
     });
   });
 
-  it('adds a focus area entry for AddEntryBetter Intents', (done) => {
+  it('adds a focus area entry for AddEntryBetter Intents', function (done) {
+    this.timeout(10000);
     const event = {
       version: '1.0',
       session: {
@@ -79,7 +85,7 @@ describe('handler integration test', () => {
         expect(response.response).toEqual({
           outputSpeech: {
             type: 'SSML',
-            ssml: '<speak>You are done for today - you added entries to all focus areas</speak>',
+            ssml: '<speak>Your current Streak for TDD is 1, longest 1. You are done for today - you added entries to all focus areas</speak>',
           },
           shouldEndSession: true,
         });
