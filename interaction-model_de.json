@@ -1,0 +1,69 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "was today better",
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.YesIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NoIntent",
+          "samples": []
+        },
+        {
+          "name": "AddFocusAreaEntryBetter",
+          "slots": [],
+          "samples": [
+            "heute war besser",
+            "besser",
+            "gut",
+            "ja"
+          ]
+        },
+        {
+          "name": "AddFocusAreaEntryWorse",
+          "slots": [],
+          "samples": [
+            "heute war schlechter",
+            "schlechter",
+            "schlecht",
+            "nein"
+          ]
+        },
+        {
+          "name": "AddFocusAreaEntryNotApplicable",
+          "slots": [],
+          "samples": [
+            "nicht anwendbar",
+            "kann ich nicht sagen",
+            "next",
+            "nächster",
+            "überspringen"
+          ]
+        }
+      ],
+      "types": []
+    }
+  }
+}
