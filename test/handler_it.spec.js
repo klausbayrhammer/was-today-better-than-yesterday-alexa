@@ -45,6 +45,7 @@ describe('handler integration test', () => {
       version: '1.0',
       session: {},
       request: {
+        locale: 'en-GB',
         type: 'LaunchRequest',
       },
     };
@@ -74,6 +75,7 @@ describe('handler integration test', () => {
         },
       },
       request: {
+        locale: 'en-GB',
         type: 'IntentRequest',
         intent: {
           name: 'AddFocusAreaEntryBetter',

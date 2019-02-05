@@ -1,27 +1,52 @@
 const focusAreaWithoutTodaysEntries = require('../utils/focus-area-without-todays-entry');
 const loadStreakForFocusArea = require('../utils/load-streak-for-focus-area');
+const translate = require('../translate/translate');
 
-async function getStreakInfo(lastFocusAreaId) {
-  if (lastFocusAreaId) {
-    const { name, current, longest } = await loadStreakForFocusArea(lastFocusAreaId);
-    return `Your current Streak for ${name} is ${current}, longest ${longest}. `;
-  }
-  return '';
+async function streakAndDoneForToday(sessionAttributes, handlerInput, locale) {
+  const { name, current, longest } = await loadStreakForFocusArea(sessionAttributes.lastFocusAreaId);
+  return handlerInput.responseBuilder
+    .speak(translate(locale, 'STREAK_AND_DONE_FOR_TODAY', name, current, longest))
+    .withShouldEndSession(true)
+    .getResponse();
+}
+
+function doneForToday(handlerInput, locale) {
+  return handlerInput.responseBuilder
+    .speak(translate(locale, 'DONE_FOR_TODAY'))
+    .withShouldEndSession(true)
+    .getResponse();
+}
+
+async function streakAndNextFocusArea(sessionAttributes, focusArea, handlerInput, locale) {
+  const { name, current, longest } = await loadStreakForFocusArea(sessionAttributes.lastFocusAreaId);
+  sessionAttributes.lastFocusAreaId = focusArea.id;
+
+  return handlerInput.responseBuilder
+    .speak(translate(locale, 'STREAK_AND_NEXT_FOCUS_AREA', name, current, longest, focusArea.name))
+    .withShouldEndSession(false)
+    .getResponse();
+}
+
+function nextFocusArea(sessionAttributes, focusArea, handlerInput, locale) {
+  sessionAttributes.lastFocusAreaId = focusArea.id;
+  return handlerInput.responseBuilder
+    .speak(translate(locale, 'NEXT_FOCUS_AREA', focusArea.name))
+    .withShouldEndSession(false)
+    .getResponse();
 }
 
 module.exports = async (handlerInput) => {
   const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
-  const streak = await getStreakInfo(sessionAttributes.lastFocusAreaId);
   const focusArea = await focusAreaWithoutTodaysEntries();
+  const { locale } = handlerInput.requestEnvelope.request;
   if (!focusArea) {
-    return handlerInput.responseBuilder
-      .speak(`${streak}You are done for today - you added entries to all focus areas`)
-      .withShouldEndSession(true)
-      .getResponse();
+    if (sessionAttributes.lastFocusAreaId) {
+      return streakAndDoneForToday(sessionAttributes, handlerInput, locale);
+    }
+    return doneForToday(handlerInput, locale);
   }
-  sessionAttributes.lastFocusAreaId = focusArea.id;
-  return handlerInput.responseBuilder
-    .speak(`${streak}Was today better than yesterday in regards of ${focusArea.name}`)
-    .withShouldEndSession(false)
-    .getResponse();
+  if (sessionAttributes.lastFocusAreaId) {
+    return streakAndNextFocusArea(sessionAttributes, focusArea, handlerInput, locale);
+  }
+  return nextFocusArea(sessionAttributes, focusArea, handlerInput, locale);
 };
